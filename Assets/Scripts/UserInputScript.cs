@@ -16,6 +16,8 @@ public class UserInputScript : MonoBehaviour {
         {
             moveCamera();
             mouseInput();
+            keyboardInput();
+            
         }
 	}
 
@@ -78,6 +80,7 @@ public class UserInputScript : MonoBehaviour {
                     WorldObjectScript worldObj = hitObj.transform.root.GetComponent<WorldObjectScript>();
                     if (worldObj)
                     {
+                        Debug.Log("Selected: " + worldObj.transform.name);
                         player.selectedObj = worldObj;
                         worldObj.setSelected(true);
                     }
@@ -97,6 +100,28 @@ public class UserInputScript : MonoBehaviour {
             
             player.selectedObj.rightClick(hitObj,hitPoint,player);
         }
+    }
+
+    private void keyboardInput()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            bKeyPressed(0);
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            gKeyPressed(1);
+        }
+    }
+
+    private void bKeyPressed(int index)
+    {
+        player.selectedObj.buildUnitCheck(index);
+    }
+
+    private void gKeyPressed(int index)
+    {
+        player.selectedObj.buildUnitCheck(index);
     }
 
     private GameObject findHitObj()

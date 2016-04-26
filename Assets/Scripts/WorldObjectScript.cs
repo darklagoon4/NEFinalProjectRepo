@@ -11,7 +11,9 @@ public class WorldObjectScript : MonoBehaviour {
 
     public modelColor modelColor;
 
-    protected PlayerScript player;
+    public bool humanPlayer;
+
+    public PlayerScript player;
     protected string[] actionArr;
     protected bool selected=false;
     protected Bounds selectedBounds;
@@ -31,7 +33,7 @@ public class WorldObjectScript : MonoBehaviour {
 
     protected virtual void Start()
     {
-        player = transform.root.GetComponentInChildren<PlayerScript>();
+        //player = transform.root.GetComponentInChildren<PlayerScript>();
     }
 
     protected virtual void Update()
@@ -66,6 +68,7 @@ public class WorldObjectScript : MonoBehaviour {
     public virtual void setSelected(bool selected)
     {
         this.selected = selected;
+        
     }
 
     public string[] getActions()
@@ -85,6 +88,7 @@ public class WorldObjectScript : MonoBehaviour {
             WorldObjectScript worldObj = hitObj.transform.root.GetComponent<WorldObjectScript>();
             if (worldObj)
             {
+                Debug.Log("Selected: " + worldObj.transform.name);
                 changeSelect(worldObj, control);
             }
         }
@@ -219,6 +223,38 @@ public class WorldObjectScript : MonoBehaviour {
             return true;
         }
         return false;
+    }
+
+    public bool isOwnedBy(PlayerScript owner)
+    {
+        if (player && player.Equals(owner))
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    //Building
+    public void buildUnitCheck(int index)
+    {
+        BuildingScript self = this as BuildingScript;
+        if (self)
+        {
+            if (index < actionArr.Length)
+            {
+                self.doAction(self.actionArr[index]);
+            }
+            else
+            {
+                Debug.LogError("Out of Bounds unit index: " + index);
+            }
+        }
+        else
+        {
+            Debug.Log("Not a building");
+        }
     }
 
 }

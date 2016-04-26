@@ -8,14 +8,16 @@ public class BuildingScript : WorldObjectScript {
     public Renderer rend;
     public float maxBuildTime;
     protected Queue<string> buildLine;
-    private float currBuildTime = 0.0f;
+    public float currBuildTime = 0.0f;
     private Vector3 spawnLoc;
+    public Vector3 spawnPoint;
 
     protected override void Awake()
     {
         base.Awake();
         rend = GetComponent<Renderer>();
         buildLine = new Queue<string>();
+        
         //Need to add real spawn point
         float spawnX = selectedBounds.center.x + transform.forward.x * selectedBounds.extents.x + transform.forward.x * 10;
         float spawnZ = selectedBounds.center.z + transform.forward.z + selectedBounds.extents.z + transform.forward.z * 10;
@@ -56,19 +58,25 @@ public class BuildingScript : WorldObjectScript {
 
     protected void makeUnit(string unitName)
     {
+        //Debug.Log("Enqueue unit");
         buildLine.Enqueue(unitName);
     }
 
     protected void updateBuildQueue()
     {
+        //Debug.Log("update build queue");
         if (buildLine.Count > 0)
         {
+            //Debug.Log("update build queue: "+ ResourceManagerScript.buildSpeed);
             currBuildTime += Time.deltaTime * ResourceManagerScript.buildSpeed;
             if (currBuildTime > maxBuildTime)
             {
-                if (player)
+                if (humanPlayer)
                 {
-                    player.addUnit(buildLine.Dequeue(),spawnLoc,transform.rotation);
+                    //Debug.Log("Calling Player addUnit: "+ spawnLoc+" : "+transform.rotation+player);
+                    //player.addUnit(buildLine.Dequeue(),spawnLoc,transform.rotation);
+                    player.addUnit(buildLine.Dequeue(), spawnPoint, transform.rotation);
+                    
                 }
                 currBuildTime = 0.0f;
             }
@@ -91,8 +99,4 @@ public class BuildingScript : WorldObjectScript {
         return currBuildTime / maxBuildTime;
     }
 
-    protected void createUnit(string unitName)
-    {
-        buildLine.Enqueue(unitName);
-    }
 }

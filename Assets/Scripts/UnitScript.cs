@@ -147,7 +147,7 @@ public class UnitScript : WorldObjectScript
         {
             path = newPath;
             for(int i = 0; i < path.Length; i++) {
-                Debug.Log(path[i]);
+                //Debug.Log(path[i]);
             }
             
             StopCoroutine("FollowPath");
@@ -215,7 +215,7 @@ public class UnitScript : WorldObjectScript
 
     public void makeMove(Vector3 targetVector)
     {
-        Debug.Log(transform.position + " : " + targetVector);
+        //Debug.Log(transform.position + " : " + targetVector);
         PathRequestManagerScript.requestPath(transform.position, targetVector, onPathFound);
     }
 
@@ -225,10 +225,10 @@ public class UnitScript : WorldObjectScript
         currWeaponCooldown = 0.0f;
         currFiringTime = 0.0f;
         //this method needs to be overloaded
-        Debug.Log("Firing, Target health: " + targetObj.health);
-        var audio = GetComponent<AudioSource>();
-        audio.Play();
+        //var audio = GetComponent<AudioSource>();
+        //audio.Play();
         targetObj.health = targetObj.health - weaponAtk;
+        Debug.Log("Firing, Target: "+targetObj.name+". Health: " + targetObj.health);
     }
 
 

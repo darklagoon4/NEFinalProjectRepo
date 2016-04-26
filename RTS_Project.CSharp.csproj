@@ -63,16 +63,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\FiringSoundScript.cs" />
     <Compile Include="Assets\Scripts\AttackScript.cs" />
+    <Compile Include="Assets\Scripts\BarracksScript.cs" />
     <Compile Include="Assets\Scripts\BuildingScript.cs" />
     <Compile Include="Assets\Scripts\CharScript.cs" />
     <Compile Include="Assets\Scripts\Enum.cs" />
+    <Compile Include="Assets\Scripts\FSM\AttackState.cs" />
     <Compile Include="Assets\Scripts\FSM\FSM.cs" />
     <Compile Include="Assets\Scripts\FSM\FSMState.cs" />
+    <Compile Include="Assets\Scripts\FSM\IdleState.cs" />
+    <Compile Include="Assets\Scripts\FSM\MovingState.cs" />
     <Compile Include="Assets\Scripts\FSM\NPCControllerScript.cs" />
+    <Compile Include="Assets\Scripts\FSM\RetreatState.cs" />
     <Compile Include="Assets\Scripts\FSM\State.cs" />
     <Compile Include="Assets\Scripts\FSM\Transition.cs" />
+    <Compile Include="Assets\Scripts\FiringSoundScript.cs" />
     <Compile Include="Assets\Scripts\GameControllerScript.cs" />
     <Compile Include="Assets\Scripts\GameObjectTrackerScript.cs" />
     <Compile Include="Assets\Scripts\GridScript.cs" />
@@ -85,7 +90,9 @@
     <Compile Include="Assets\Scripts\PlayerScript.cs" />
     <Compile Include="Assets\Scripts\ResourceManagerScript.cs" />
     <Compile Include="Assets\Scripts\SelectionScript.cs" />
+    <Compile Include="Assets\Scripts\SoldierScript.cs" />
     <Compile Include="Assets\Scripts\UnitScript.cs" />
+    <Compile Include="Assets\Scripts\UnitsScript.cs" />
     <Compile Include="Assets\Scripts\UserInputScript.cs" />
     <Compile Include="Assets\Scripts\WorkManagerScript.cs" />
     <Compile Include="Assets\Scripts\WorldObjectScript.cs" />

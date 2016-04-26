@@ -64,9 +64,9 @@ public abstract class FSMState{
 
     //overrideable methods
 
-    public abstract void reasoning(GameObject player, GameObject npc);
+    public abstract void reasoning(WorldObjectScript player, WorldObjectScript npc);
 
-    public abstract void acting(GameObject player, GameObject npc);
+    public abstract void acting(WorldObjectScript player, WorldObjectScript npc);
 
     public virtual void doBeforeEntering() { }
 

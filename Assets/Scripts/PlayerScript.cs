@@ -10,6 +10,7 @@ public class PlayerScript : MonoBehaviour {
 
     public int startOil, startOilLimit, startInfluence, startInfluenceLimit;
     private Dictionary<ResourceType, int> resource, resourceLimit;
+    public List<UnitScript> units;
 
     public HUDScript hud;
     public WorldObjectScript selectedObj
@@ -28,6 +29,7 @@ public class PlayerScript : MonoBehaviour {
         hud = GetComponentInChildren<HUDScript>();
         addStartingResourceLimit();
         addStartingResource();
+        //addUnit("Soldier2", Vector3.zero, transform.rotation);
 	}
 	
 	// Update is called once per frame
@@ -61,6 +63,11 @@ public class PlayerScript : MonoBehaviour {
         resource[type] += amount;
     }
 
+    private void decreaseResource(ResourceType type, int amount)
+    {
+        resource[type] -= amount;
+    }
+
     private void increaseResourceLimit(ResourceType type, int amount)
     {
         resourceLimit[type] += amount;
@@ -68,7 +75,25 @@ public class PlayerScript : MonoBehaviour {
 
     public void addUnit(string unitName, Vector3 spawnLoc, Quaternion rotation)
     {
-        Debug.Log("Add unit to player");
+        if (resource[ResourceType.Oil] >= 0)
+        {
+            GameObject newUnit = (GameObject)Instantiate(ResourceManagerScript.getUnit(unitName), spawnLoc, rotation);
+            int cost = newUnit.GetComponent<UnitScript>().cost;
+            decreaseResource(ResourceType.Oil, cost);
+            if (resource[ResourceType.Oil] >= 0)
+            {
+                Debug.Log("Adding " + unitName + " unit costing " + cost + " barrels of oil. You have " + resource[ResourceType.Oil] + " barrels of oil remaining.");
+            }
+            else
+            {
+                Debug.Log("Adding " + unitName + " unit costing " + cost + " barrels of oil. You have a debt of " + -resource[ResourceType.Oil] + " barrels of oil.");
+            }
+            //newUnit.transform.parent = units.transform;
+        }
+        else
+        {
+            Debug.Log("You don't have enough oil to pay.");
+        }
     }
 
 

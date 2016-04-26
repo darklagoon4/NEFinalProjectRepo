@@ -3,7 +3,9 @@ using System.Collections;
 
 public class NPCControllerScript : MonoBehaviour {
 
-    public GameObject player;
+    public WorldObjectScript player, gameObj;
+    public GameObject gameState; //Needs to be implemented
+    public Vector3 spawnPoint;
     private FSM fsm;
 
     // Use this for initialization
@@ -19,29 +21,34 @@ public class NPCControllerScript : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate () {
-        fsm.currentState.reason(player, gameObject);
-        fsm.currentState.act(player, gameObject);
+        fsm.currentState.reasoning(player, gameObj);
+        fsm.currentState.acting(player, gameObj);
     }
 
     private void makeFSM()
     {
-        IdleState idle = new IdleState();
-        idle.AddTransition(Transition.SawPlayer, State.Moving);
+        IdleState idle = new IdleState(gameState);
+        idle.addTransition(Transition.SawPlayer, State.Moving);
 
-        MovingState move = new MovingToPlayerState();
-        move.AddTransition(Transition.InAtkRange, State.Attack);
+        MovingState move = new MovingState();
+        move.addTransition(Transition.InAtkRange, State.Attack);
 
         AttackState atk = new AttackState();
-        atk.AddTransition(Transition.DeadTarget, State.Idle);
-        atk.AddTransition(Transition.LowHealth, State.Retreat);
+        atk.addTransition(Transition.DeadTarget, State.Idle);
+        atk.addTransition(Transition.LowHealth, State.Retreat);
 
-        RetreatState retreat = new RetreatState();
-        atk.AddTransition(Transition.ReachedSpawn, State.Idle);
+        RetreatState retreat = new RetreatState(spawnPoint);
+        atk.addTransition(Transition.ReachedSpawn, State.Idle);
 
-        fsm = new FSMSystem();
-        fsm.AddState(idle);
-        fsm.AddState(move);
-        fsm.AddState(atk);
-        fsm.AddState(retreat);
+        fsm = new FSM();
+        fsm.addState(idle);
+        fsm.addState(move);
+        fsm.addState(atk);
+        fsm.addState(retreat);
+    }
+
+    public void setPlayer(WorldObjectScript player)
+    {
+        this.player = player;
     }
 }
